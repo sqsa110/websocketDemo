@@ -9,6 +9,7 @@ var RedisStore = require('connect-redis')(expressSession);
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var chat = require('./routes/chat');
+var errorhandler = require('./errorhandler');
 
 var app = express();
 
@@ -23,16 +24,25 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(cookieParser());
+
+//处理页面访问异常
+//app.use(errorhandler());
+
+app.use(cookieParser('keyboard cat'));
 app.use(expressSession({
   resave : false,
   saveUninitialized : true,
   store : new RedisStore({
-    host : '127.0.0.1',
+    host : '172.16.5.243',
     port : 6379,
-    ttl : 60*60
+  //  db : 'mydb',
+  //  pass : 'keyboard',
+    ttl : 60*60,
+//    pass : 'keyboard'
   }),
   secret : 'keyboard cat'
 }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -74,5 +84,12 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//处理报错
+/*
+process.on('uncaughtException',function(err){
+  console.log('An uncaughtException was caught...& the server will shutdown after the note..');
+  console.log(err.stack);
+  process.exit(1);
+});*/
 
 module.exports = app;

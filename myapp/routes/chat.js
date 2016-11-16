@@ -2,8 +2,18 @@ var express = require('express');
 var router = express.Router();
 var socket_io= require('socket.io');
 var socketioAuth = require('socketio-auth');
-var _socket = {};
+var parseCookie = express.cookieParser('keyboard cat');
+var storeMemory = new express.session.MemoryStore();
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+	host : '172.16.5.243',
+	port : '3306',
+	user : 'root',
+	password : 'p@ssw0rd',
+	database : 'websocketdemo'
+});
 
+var _socket = {};
 function authenticate(data,callback){
 	var username = data.username;
 	var password = data.password;
@@ -19,6 +29,16 @@ router.get('/chat', function(req, res, next) {
  	res.render('index', { title: 'Express' });
 });
 
+router.get('/mysql',function(req,res,next){
+	connection.connect();
+	connection.query('SELECT * from users',function(err,rows,fields){
+		if(err) throw err;
+		console.log(rows[0]);
+	});
+	connection.end();
+	res.send({"aaa":"bbb"});
+});
+
 router.get('/socket',function(req,res,next){
 //	socket.emit('chat','SERVER','aaaa1111');
 	_socket.socket.emit('chat','alksdfjls','sdfkl');
@@ -28,11 +48,21 @@ router.get('/socket',function(req,res,next){
 
 router.preparseSocketIo = function(server){
 	var io = socket_io.listen(server);
+	io.set('authorization',function(handshakeData,callback){
+		handshakeData.cookie = parseCookie(handshakeData.headers.cookie);
+		var connect_sid = handshakeData.cookie['connect_sid'];
+		if(connect_sid){
+
+		}
+	});
+	/*
 	socketioAuth(io,{
 		authenticate : authenticate,	
 	//	postAuthenticate : postAuthenticate,
 		timeout : 1000
 	});
+	*/
+
 	_socket.io = io;
 	io.of('/chat')
 	.on('connection',function(socket){

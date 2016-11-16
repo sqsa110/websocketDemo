@@ -6,6 +6,14 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/redis',function(req,res,next){
+	var session = req.session;
+	session.count = session.count || 0;
+	var n = session.count++;
+	res.send(session.id + ',n:' + n);
+	req.session.save();
+});
+
 router.get('/websock',function(req,res,next){
 	var datas = [5,4,3,2,1];
 	socket.socketIo.sendClick2Ev(datas);

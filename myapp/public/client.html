@@ -93,7 +93,7 @@
     </tr>
 </table>
 <script>
-    var socket = io.connect('http://127.0.0.1:3000');
+    var socket = io.connect('http://127.0.0.1:3000/chat');
     var userName = "访客某某";
     socket.on('connect', function () {
         userName = prompt("请输入你的姓名?") || userName;

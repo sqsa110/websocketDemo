@@ -1,7 +1,19 @@
 var express = require('express');
 var router = express.Router();
-var socket_io= require('socket.io')
+var socket_io= require('socket.io');
+var socketioAuth = require('socketio-auth');
 var _socket = {};
+
+function authenticate(data,callback){
+	var username = data.username;
+	var password = data.password;
+
+	db.findUser('User',{username:username},function(){
+		if(err || !user) return callback(new Error("User not found"));
+		return callback(null,user.password == password);
+	});
+}
+
 /* GET home page. */
 router.get('/chat', function(req, res, next) {
  	res.render('index', { title: 'Express' });
@@ -16,8 +28,16 @@ router.get('/socket',function(req,res,next){
 
 router.preparseSocketIo = function(server){
 	var io = socket_io.listen(server);
+	socketioAuth(io,{
+		authenticate : authenticate,	
+	//	postAuthenticate : postAuthenticate,
+		timeout : 1000
+	});
 	_socket.io = io;
-	io.sockets.on('connection',function(socket){
+	io.of('/chat')
+	.on('connection',function(socket){
+
+
 		_socket.socket = socket;
 		socket.on('join',function(user){
 			socket.user = user;

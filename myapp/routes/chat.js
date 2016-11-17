@@ -3,7 +3,8 @@ var router = express.Router();
 var socket_io= require('socket.io');
 var socketioAuth = require('socketio-auth');
 var parseCookie = express.cookieParser('keyboard cat');
-var storeMemory = new express.session.MemoryStore();
+var storeMemory = new express.session.RedisStore();
+console.log(storeMemory);
 var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host : '172.16.5.243',
@@ -49,10 +50,25 @@ router.get('/socket',function(req,res,next){
 router.preparseSocketIo = function(server){
 	var io = socket_io.listen(server);
 	io.set('authorization',function(handshakeData,callback){
+		if(!handshakeData.headers.cookie){
+			return callback('no found cookie',false);
+		}
+		//	var session = socket.handshake.session;
+		//	var name = session.user;
 		handshakeData.cookie = parseCookie(handshakeData.headers.cookie);
 		var connect_sid = handshakeData.cookie['connect_sid'];
 		if(connect_sid){
-
+			storeMemory.get(connect_sid,function(error,session){
+				if(error){
+					callback(error.message,false);
+					console.log("session:" + session);
+				} else {
+					handshakeData.session = session;
+					callback(null,true);
+				}
+			});
+		} else {
+			callback('nosession');
 		}
 	});
 	/*

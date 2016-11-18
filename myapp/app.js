@@ -8,8 +8,18 @@ var expressSession = require('express-session');
 var RedisStore = require('connect-redis')(expressSession);
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var chat = require('./routes/chat');
+//var chat = require('./routes/chat');
 var errorhandler = require('./errorhandler');
+var socketio = require('socket.io');
+var cookie = require('cookie');
+var session_storage = new RedisStore({
+  host : '172.16.5.243',
+  port : 6379,
+  //  db : 'mydb',
+  //  pass : 'keyboard',
+  ttl : 60*60,
+//    pass : 'keyboard'
+});
 
 var app = express();
 
@@ -23,22 +33,20 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(cookieParser());
 
 //处理页面访问异常
-//app.use(errorhandler());
+app.use(errorhandler());
 
-app.use(cookieParser('keyboard cat'));
+app.use(cookieParser('keyboard'));
 app.use(expressSession({
   resave : false,
   saveUninitialized : true,
+  key : 'sid',
+  secret : 'keyboard',
   store : new RedisStore({
     host : '172.16.5.243',
     port : 6379,
-  //  db : 'mydb',
-  //  pass : 'keyboard',
     ttl : 60*60,
-//    pass : 'keyboard'
   }),
   secret : 'keyboard cat'
 }));
@@ -46,11 +54,67 @@ app.use(expressSession({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/chat',chat);
+//app.use('/chat',chat);
 app.use('/users', users);
 
 app.ready = function(server){
-  chat.preparseSocketIo(server);
+//  chat.preparseSocketIo(server);
+    var io = socketio.listen(server);
+  /*
+    io.use(function(socket,next){
+      console.log(socket.request.headers);
+
+      if(socket.request.headers.cookie){
+        return next('NO cookie transitted.',false);
+      }
+
+ //     socket.request.cookie = cookie.parse(data.headers.cookie);
+
+      next(new Error('Authentication error'));
+    });
+    */
+  /*
+
+    io.configure('development',function(){
+
+      io.set('authorization',function(data,accept){
+        if(!data.header.cookie){
+          return accept('NO cookie transmitted.',false);
+        }
+        data.cookie = cookie.parse(data.headers.cookie);
+
+        var sid = data.cookie['sid'];
+
+        if(!sid){
+          accept(null,false);
+        }
+        sid = sid.substr(2).split('.');
+        sid = sid[0];
+        data.sessionID = sid;
+        data.getSession = function(cb){
+          session_storage.get(sid,function(err,session){
+            if(err || !session){
+              console.log(err);
+              accept(err,false);
+              return;
+            }
+            cb(err,session);
+          });
+        }
+        accept(null,true);
+      });
+
+      console.log(1);
+    });*/
+    io.sockets.on('connection',function(socket){
+      socket.join('chat');
+      socket.on('message',function(data){
+        socket.handshake.getSession(function(err,session){
+          data['user'] = session.name || 'guest';
+          io.sockets.in('chat').emit('message',data);
+        });
+      });
+    });
 }
 
 // catch 404 and forward to error handler
@@ -85,11 +149,11 @@ app.use(function(err, req, res, next) {
 });
 
 //处理报错
-/*
+
 process.on('uncaughtException',function(err){
   console.log('An uncaughtException was caught...& the server will shutdown after the note..');
   console.log(err.stack);
   process.exit(1);
-});*/
+});
 
 module.exports = app;

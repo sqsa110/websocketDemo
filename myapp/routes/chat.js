@@ -2,9 +2,15 @@ var express = require('express');
 var router = express.Router();
 var socket_io= require('socket.io');
 var socketioAuth = require('socketio-auth');
-var parseCookie = express.cookieParser('keyboard cat');
-var storeMemory = new express.session.RedisStore();
-console.log(storeMemory);
+//var cookieParser = require('cookie-parser');
+//var parseCookie = express.cookieParser('keyboard cat');
+//var storeMemory = express.session;
+
+var utils = require('connect/lib/utils.js');
+var cookie = require('connect/node_modules/cookie-parser/node_modules/cookie');
+var redis = require('redis');
+var client = redis.createClient(6379,'172.16.5.243');
+
 var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host : '172.16.5.243',
@@ -49,28 +55,7 @@ router.get('/socket',function(req,res,next){
 
 router.preparseSocketIo = function(server){
 	var io = socket_io.listen(server);
-	io.set('authorization',function(handshakeData,callback){
-		if(!handshakeData.headers.cookie){
-			return callback('no found cookie',false);
-		}
-		//	var session = socket.handshake.session;
-		//	var name = session.user;
-		handshakeData.cookie = parseCookie(handshakeData.headers.cookie);
-		var connect_sid = handshakeData.cookie['connect_sid'];
-		if(connect_sid){
-			storeMemory.get(connect_sid,function(error,session){
-				if(error){
-					callback(error.message,false);
-					console.log("session:" + session);
-				} else {
-					handshakeData.session = session;
-					callback(null,true);
-				}
-			});
-		} else {
-			callback('nosession');
-		}
-	});
+
 	/*
 	socketioAuth(io,{
 		authenticate : authenticate,	
@@ -78,11 +63,23 @@ router.preparseSocketIo = function(server){
 		timeout : 1000
 	});
 	*/
+	io.sockets.authorization(function(handshakeData,callback){
+		var cookies = handshakeData.headers.cookie;
+		var secret = 'love';
+		var key = 'love';
+		if(cookies){
+			cookies = cookie.prese(cookies);
+			cookies = utils.parseSignedCookies(cookies,secret);
+			cookies = utils.parseJSONCookies(cookies);
+			if(cookies[key]){
+				session = JSON.parse(cookies[key]);
+			}
+		}
+	});
 
 	_socket.io = io;
 	io.of('/chat')
 	.on('connection',function(socket){
-
 
 		_socket.socket = socket;
 		socket.on('join',function(user){

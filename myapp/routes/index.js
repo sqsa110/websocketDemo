@@ -14,6 +14,15 @@ router.get('/redis',function(req,res,next){
 	req.session.save();
 });
 
+router.get('/socket2',function(req,res,next){
+	res.render('socket',{title:"Express"});
+});
+
+router.post('/socket2',function(req,res,next){
+	req.session['name'] = req.body.name;
+	res.render('socket',{title:"Express"});
+})
+
 router.get('/websock',function(req,res,next){
 	var datas = [5,4,3,2,1];
 	socket.socketIo.sendClick2Ev(datas);

@@ -44,7 +44,8 @@ app.use(expressSession({
   key : 'sid',
   secret : 'keyboard',
   store : new RedisStore({
-    host : '172.16.5.243',
+//    host : '172.16.5.243',
+    host : '192.168.3.200',
     port : 6379,
     ttl : 60*60,
   }),
@@ -60,19 +61,38 @@ app.use('/users', users);
 app.ready = function(server){
 //  chat.preparseSocketIo(server);
     var io = socketio.listen(server);
-  /*
+  
     io.use(function(socket,next){
       console.log(socket.request.headers);
 
-      if(socket.request.headers.cookie){
+      if(!socket.request.headers.cookie){
         return next('NO cookie transitted.',false);
       }
+      socket.request.cookie = cookie.parse(socket.request.headers.cookie);
+      var sid = socket.request.cookie['sid'];
+      if(!sid){
+        next(null,false);
+      }
+      sid = sid.substr(2).split('.');
+      sid = sid[0];
+      console.log(sid);
+      socket.request.sessionID = sid;
+      socket.request.getSession = function(cb){
+        session_storage.get(sid,function(err,session){
+          if(err || !session){
+            next(err,false);
+            return;
+          }
+          cb(err,session);
+        });
+      }
 
- //     socket.request.cookie = cookie.parse(data.headers.cookie);
+      next(null,true);
 
-      next(new Error('Authentication error'));
+ //     next(new Error('Authentication error'));
+
     });
-    */
+    
   /*
 
     io.configure('development',function(){

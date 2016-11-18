@@ -8,9 +8,25 @@ router.get('/', function(req, res, next) {
 
 router.get('/redis',function(req,res,next){
 	var session = req.session;
+	console.log(req.session);
 	session.count = session.count || 0;
 	var n = session.count++;
+	if(req.signedCookies && req.signedCookies.signed_monster){
+		var signedMonster = req.signedCookies.signed_monster;
+		res.cookie('signed_monster',signedMonster+'a',{signed:true});
+		console.log(signedMonster);
+	} else {
+		res.cookie('signed_monster','nmm',{signed:true});
+	}
+	if(req.cookies && req.cookies.monster){
+		var monster = req.cookies.monster;
+		res.cookie('monster',(monster + 'a'));
+		console.log(monster);
+	} else {
+		res.cookie('monster','nom');
+	}
 	res.send(session.id + ',n:' + n);
+	res.end();
 	req.session.save();
 });
 

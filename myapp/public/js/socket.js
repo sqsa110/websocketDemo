@@ -1,8 +1,28 @@
 $(document).ready(function() {
     var socket = io.connect('/');
 
-    socket.on('connect', function() {
-        console.log('connected');
+    socket.on('connect', function(reason) {
+        console.log('connected',reason);
+    });
+
+    socket.on('connect_failed',function(reason){
+        console.log('connect_failed',reason);
+    });
+
+    socket.on('error',function(reason){
+        console.log('err',reason);
+    });
+
+    socket.on('disconnect',function(reason){
+        console.log('disconnect',reason);
+    });
+
+    socket.on('reconnect_failed',function(reason){
+        console.log('reconnect_failed',reason);
+    });
+
+    socket.on('reconnect',function(reason){
+        console.log('reconnect',reason);
     });
 
     socket.on('message', function(data) {

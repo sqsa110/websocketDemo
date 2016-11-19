@@ -62,36 +62,36 @@ app.ready = function(server){
 //  chat.preparseSocketIo(server);
     var io = socketio.listen(server);
   
-    io.use(function(socket,next){
-      console.log(socket.request.headers);
-
-      if(!socket.request.headers.cookie){
-        return next('NO cookie transitted.',false);
-      }
-      socket.request.cookie = cookie.parse(socket.request.headers.cookie);
-      var sid = socket.request.cookie['sid'];
-      if(!sid){
-        next(null,false);
-      }
-      sid = sid.substr(2).split('.');
-      sid = sid[0];
-      console.log(sid);
-      socket.request.sessionID = sid;
-      socket.request.getSession = function(cb){
-        session_storage.get(sid,function(err,session){
-          if(err || !session){
-            next(err,false);
-            return;
-          }
-          cb(err,session);
-        });
-      }
-
-      next(null,true);
-
+//    io.use(function(socket,next){
+      io.set('authorization',function(socket,next){
+        console.log(socket.headers.cookie);
+        if(!socket.headers.cookie){
+          return next('NO cookie transitted.',true);
+        }
+        socket.cookie = cookie.parse(socket.headers.cookie);
+        var sid = socket.cookie['sid'];
+        if(!sid){
+          next(null,true);
+        }
+        sid = sid.substr(2).split('.');
+        sid = sid[0];
+        console.log(sid);
+        socket.sessionID = sid;
+        socket.getSession = function(cb){
+          session_storage.get(sid,function(err,session){
+            if(err || !session){
+              next(err,true);
+              return;
+            }
+            cb(err,session);
+          });
+        }
+        next(null, true);
+      //  next(null,true);
+      });
  //     next(new Error('Authentication error'));
 
-    });
+//    });
     
   /*
 
@@ -127,6 +127,7 @@ app.ready = function(server){
       console.log(1);
     });*/
     io.sockets.on('connection',function(socket){
+  /*
       socket.join('chat');
       socket.on('message',function(data){
         socket.handshake.getSession(function(err,session){
@@ -134,6 +135,7 @@ app.ready = function(server){
           io.sockets.in('chat').emit('message',data);
         });
       });
+      */
     });
 }
 

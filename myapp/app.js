@@ -8,12 +8,12 @@ var expressSession = require('express-session');
 var RedisStore = require('connect-redis')(expressSession);
 var routes = require('./routes/index');
 var users = require('./routes/users');
-//var chat = require('./routes/chat');
+var chat = require('./routes/chat');
 var errorhandler = require('./errorhandler');
 var socketio = require('socket.io');
 var cookie = require('cookie');
 var session_storage = new RedisStore({
-  host : '172.16.5.243',
+  host : '192.168.3.200',
   port : 6379,
   //  db : 'mydb',
   //  pass : 'keyboard',
@@ -43,100 +43,18 @@ app.use(expressSession({
   saveUninitialized : true,
   key : 'sid',
   secret : 'keyboard',
-  store : new RedisStore({
-//    host : '172.16.5.243',
-    host : '192.168.3.200',
-    port : 6379,
-    ttl : 60*60,
-  }),
+  store : session_storage,
   secret : 'keyboard cat'
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-//app.use('/chat',chat);
+app.use('/chat',chat);
 app.use('/users', users);
 
 app.ready = function(server){
-//  chat.preparseSocketIo(server);
-    var io = socketio.listen(server);
-  
-//    io.use(function(socket,next){
-      io.set('authorization',function(socket,next){
-        console.log(socket.headers.cookie);
-        if(!socket.headers.cookie){
-          return next('NO cookie transitted.',true);
-        }
-        socket.cookie = cookie.parse(socket.headers.cookie);
-        var sid = socket.cookie['sid'];
-        if(!sid){
-          next(null,true);
-        }
-        sid = sid.substr(2).split('.');
-        sid = sid[0];
-        console.log(sid);
-        socket.sessionID = sid;
-        socket.getSession = function(cb){
-          session_storage.get(sid,function(err,session){
-            if(err || !session){
-              next(err,true);
-              return;
-            }
-            cb(err,session);
-          });
-        }
-        next(null, true);
-      //  next(null,true);
-      });
- //     next(new Error('Authentication error'));
-
-//    });
-    
-  /*
-
-    io.configure('development',function(){
-
-      io.set('authorization',function(data,accept){
-        if(!data.header.cookie){
-          return accept('NO cookie transmitted.',false);
-        }
-        data.cookie = cookie.parse(data.headers.cookie);
-
-        var sid = data.cookie['sid'];
-
-        if(!sid){
-          accept(null,false);
-        }
-        sid = sid.substr(2).split('.');
-        sid = sid[0];
-        data.sessionID = sid;
-        data.getSession = function(cb){
-          session_storage.get(sid,function(err,session){
-            if(err || !session){
-              console.log(err);
-              accept(err,false);
-              return;
-            }
-            cb(err,session);
-          });
-        }
-        accept(null,true);
-      });
-
-      console.log(1);
-    });*/
-    io.sockets.on('connection',function(socket){
-  /*
-      socket.join('chat');
-      socket.on('message',function(data){
-        socket.handshake.getSession(function(err,session){
-          data['user'] = session.name || 'guest';
-          io.sockets.in('chat').emit('message',data);
-        });
-      });
-      */
-    });
+  chat.preparseSocketIo(server,cookie,session_storage);
 }
 
 // catch 404 and forward to error handler

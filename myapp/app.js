@@ -10,15 +10,11 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var chat = require('./routes/chat');
 var errorhandler = require('./errorhandler');
-var socketio = require('socket.io');
 var cookie = require('cookie');
 var session_storage = new RedisStore({
   host : '192.168.3.200',
   port : 6379,
-  //  db : 'mydb',
-  //  pass : 'keyboard',
   ttl : 60*60,
-//    pass : 'keyboard'
 });
 
 var app = express();

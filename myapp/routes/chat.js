@@ -43,7 +43,6 @@ router.get('/mysql',function(req,res,next){
 });
 
 router.get('/socket',function(req,res,next){
-//	socket.emit('chat','SERVER','aaaa1111');
 	_socket.socket.emit('chat','alksdfjls','sdfkl');
 	_socket.socket.broadcast.emit('chat','alksdfjls','sdfkl');
 	res.send({"aaa":"bbb"});

@@ -34,6 +34,10 @@ router.get('/socket2',function(req,res,next){
 	res.render('socket',{title:"Express"});
 });
 
+router.get('/login',function(req,res,next){
+	res.render('login',{title:"login"})
+});
+
 router.post('/socket2',function(req,res,next){
 	req.session['name'] = req.body.name;
 	res.render('socket',{title:"Express"});

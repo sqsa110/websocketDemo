@@ -8,6 +8,6 @@ module.exports = function(){
         console.log('error occur during processing request.. ' + err.stack);
         var meta = '[' + new Date() + ']' + req.url + '\n';
         console.log(meta);
-        res.sendfile('views/500.html');
+        res.sendfile('views/500.jade');
     }
 }

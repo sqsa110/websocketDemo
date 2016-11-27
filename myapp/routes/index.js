@@ -38,8 +38,9 @@ router.get('/login',function(req,res,next){
 	res.render('login',{title:"login"})
 });
 
-router.post('/login',function(req.res,next){
-
+router.post('/login',function(req,res,next){
+	console.log(req.body);
+	res.send({"aa":"bb"});
 });
 
 router.post('/socket2',function(req,res,next){

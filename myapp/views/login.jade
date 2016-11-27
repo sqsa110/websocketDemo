@@ -27,5 +27,5 @@ block content
         document.write("<script src='sea/sea-config.js?v=" + new Date().getTime() + "'><\/script>");
     script(type="text/javascript").
         seajs.use('views/login',function(abc){
-            abc();
+            var login = new abc();
         });

@@ -24,7 +24,7 @@
 
 window.Config = {
     HOST: "http://kb.52yh.com/",
-    LOGIN_HOST: "http://kblogin.52yh.com/",
+    LOGIN_HOST: "http://127.0.0.1:3000/",
 	PF_HOST: "http://kbpf.52yh.com/",
     GAME_HOST: "http://kbgame.52yh.com/",
     PLATFORM: "kb",

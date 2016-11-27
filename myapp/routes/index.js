@@ -38,6 +38,10 @@ router.get('/login',function(req,res,next){
 	res.render('login',{title:"login"})
 });
 
+router.post('/login',function(req.res,next){
+
+});
+
 router.post('/socket2',function(req,res,next){
 	req.session['name'] = req.body.name;
 	res.render('socket',{title:"Express"});

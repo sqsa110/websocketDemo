@@ -6,19 +6,26 @@ extends header
 block content
     h1 Mongo sessions integration
     h2 Express + Socket.io
-    //
-        p(style="color: red;") Current name: \#{session.name}
-    //
-        form(method='post')
-            label Enter Your name:
-                input(name='name',type='text',required)
+    div.loginBox
+        form#loginForm(method="post",action="login",onsubmit="return false;")
+            label 请输入您的用户名：
+                input#username(type="text",name="name")
+            label 请输入您的密码
+                input#passwd(type="password",name="passwd")
+            input(id='send',type='submit',value='登陆')
+    div.showBox
+        h2 用户信息栏
+            span 1
+        ul
+            li
+                h3 标题
+                p   邮件内容
 
-            input(type='submit',value='Updata')
-    //
-        h2= title
-        textarea(id="log",rows="5",cols="45")
-        br
-        label Message:
-        input(id='message',type='text')
-        input(id='send',type='button',value='Send')
-    
+    script(type="text/javascript",src="sea/sea.js")
+    script(type="text/javascript",src="/socket.io/socket.io.js")
+    script(type="text/javascript").
+        document.write("<script src='sea/sea-config.js?v=" + new Date().getTime() + "'><\/script>");
+    script(type="text/javascript").
+        seajs.use('views/login',function(abc){
+            abc();
+        });

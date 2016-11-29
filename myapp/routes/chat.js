@@ -6,7 +6,9 @@ var socket_io= require('socket.io');
 //var parseCookie = express.cookieParser('keyboard cat');
 //var storeMemory = express.session;
 
+var connection = require('./conf');
 
+/*
 var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host : '172.16.5.243',
@@ -15,7 +17,7 @@ var connection = mysql.createConnection({
 	password : 'p@ssw0rd',
 	database : 'websocketdemo'
 });
-
+*/
 var _socket = {};
 function authenticate(data,callback){
 	var username = data.username;

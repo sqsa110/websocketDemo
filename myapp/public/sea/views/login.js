@@ -28,8 +28,8 @@ define(function(require,exports,module){
     LoginInit.prototype.loginInfo = function(){
         var that = this;
         var opts = {}
-        var name = this.$usernameObj.val();
-        var pwd = this.$passwdObj.val();
+        var name = $.md5(this.$usernameObj.val());
+        var pwd = $.md5(this.$passwdObj.val());
         opts.name = name;
         opts.pwd = pwd;
         opts.self = this;
@@ -42,10 +42,12 @@ define(function(require,exports,module){
 
     LoginInit.prototype.loginSubmit = function(opts){
         this.ajax(opts);
+        return this;
     }
 
     LoginInit.prototype.loginCallback = function(data){
         console.log(data);
+        return this;
     }
 
     module.exports = LoginInit;

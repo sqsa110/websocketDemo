@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var connection = require('./conf');
 //var socket = require('../socket');
 /* GET home page.  */
 router.get('/', function(req, res, next) {
@@ -40,7 +41,16 @@ router.get('/login',function(req,res,next){
 
 router.post('/login',function(req,res,next){
 	console.log(req.body);
-	res.send({"aa":"bb"});
+	connection.connect():
+
+	connection.query('SELECT uid, from users',function(err,rows,fields){
+		if(err) throw err;
+		console.log(rews[0]);
+		res.send({"aa":"bb"});
+	});
+
+	connection.end();
+	
 });
 
 router.post('/socket2',function(req,res,next){

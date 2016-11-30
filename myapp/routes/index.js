@@ -41,9 +41,11 @@ router.get('/login',function(req,res,next){
 
 router.post('/login',function(req,res,next){
 	console.log(req.body);
-	connection.connect():
+	var name = req.body.name;
+	var pwd = req.body.pwd;
 
-	connection.query('SELECT uid, from users',function(err,rows,fields){
+	connection.connect();
+	connection.query('SELECT uid, from users where name = ?, ',function(err,rows,fields){
 		if(err) throw err;
 		console.log(rews[0]);
 		res.send({"aa":"bb"});

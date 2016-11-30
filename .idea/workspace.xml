@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f53d4fc-30e0-4957-98be-baecea38d072" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/myapp/public/css/header.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myapp/routes/index.js" afterPath="$PROJECT_DIR$/myapp/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myapp/views/header.jade" afterPath="$PROJECT_DIR$/myapp/views/header.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myapp/views/login.jade" afterPath="$PROJECT_DIR$/myapp/views/login.jade" />
-    </list>
+    <list default="true" id="8f53d4fc-30e0-4957-98be-baecea38d072" name="Default" comment="" />
     <ignored path="websocketDemo.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -29,7 +23,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/myapp/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="522">
@@ -44,7 +38,10 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="95">
               <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1480044919556" expanded="true" signature="26:101" ph="..." />
+                <marker date="1480044919556" expanded="true" signature="110:132" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,7 +86,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sea-config.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sea-config.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/myapp/public/sea/sea-config.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="461">
@@ -510,12 +507,12 @@
       <option name="presentableId" value="Default" />
       <updated>1479193047235</updated>
       <workItem from="1479193048525" duration="4127000" />
-      <workItem from="1479983653809" duration="12890000" />
+      <workItem from="1479983653809" duration="13491000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17017000" />
+    <option name="totallyTimeSpent" value="17618000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -625,7 +622,7 @@
         <state relative-caret-position="270">
           <caret line="10" column="27" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="27" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -710,14 +707,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/myapp/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/myapp/public/sea/lib/config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="81">
@@ -730,7 +719,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1480044919556" expanded="true" signature="26:101" ph="..." />
+            <marker date="1480044919556" expanded="true" signature="110:132" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -749,14 +741,6 @@
           <folding>
             <element signature="e#259#910#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myapp/views/login.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="14" column="26" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -780,6 +764,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="461">
           <caret line="41" column="6" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myapp/views/login.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="14" column="26" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myapp/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>

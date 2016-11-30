@@ -28,7 +28,7 @@ define(function(require,exports,module){
     LoginInit.prototype.loginInfo = function(){
         var that = this;
         var opts = {}
-        var name = $.md5(this.$usernameObj.val());
+        var name = this.$usernameObj.val();
         var pwd = $.md5(this.$passwdObj.val());
         opts.name = name;
         opts.pwd = pwd;

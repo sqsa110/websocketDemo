@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
 	database : 'websocketdemo'
 });
 
-/*
+
 connection = mysql.createConnection({
 	host : '192.168.3.200',
 	port : '3306',
@@ -15,6 +15,6 @@ connection = mysql.createConnection({
 	password : 'yaowan',
 	database : 'websocketdemo'
 });
-*/
+
 
 module.exports = connection;

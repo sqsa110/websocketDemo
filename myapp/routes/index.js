@@ -40,18 +40,42 @@ router.get('/login',function(req,res,next){
 });
 
 router.post('/login',function(req,res,next){
-	console.log(req.body);
+	console.log(connection);
 	var name = req.body.name;
 	var pwd = req.body.pwd;
 
 	connection.connect();
-	connection.query('SELECT uid, from users where name = ?, ',function(err,rows,fields){
-		if(err) throw err;
-		console.log(rews[0]);
-		res.send({"aa":"bb"});
+	connection.query('SELECT uid,name,passwd from users where name = ?',[name],function(err,rows,fields){
+		var sendObj = {}
+		if(err){
+			
+			sendObj.code = 1010;
+			sendObj.message = err;
+			throw err;
+		} else {
+			if (rows.length == 1) {
+				if (rows[0].passwd == pwd) {
+					sendObj.code = 1000;
+					sendObj.message = '登录成功';
+					sendObj.uid = rows[0].uid;
+					res.cookie('uid',sendObj.uid,{signed:true});
+				} else {
+					sendObj.code = 1002;
+					sendObj.message = '密码错误';
+				}
+ 			} else {
+				sendObj.code = 1001;
+				sendObj.message = '用户不存在!'
+			}
+		}
+
+		console.log(rows[0]);
+		res.send(sendObj);
+		res.end();
+		
 	});
 
-	connection.end();
+//	connection.end();
 	
 });
 

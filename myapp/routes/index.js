@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-//var mysqlPool = require('./mysql-conf').loginPool;
+var mysqlPool = require('./mysql-conf').loginPool;
 var getConf = require('./getconf');
 var postConf = require('./postconf');
-var loginTools = require('tools/login');
+var loginTools = require('./tools/login');
 
 /* GET home page.  */
 router.get('/', function(req, res, next) {
@@ -39,7 +39,6 @@ router.get('/socket2',function(req,res,next){
 });
 
 router.get('/login',function(req,res,next){
-	loginCallback();
 	res.render('login',{title:"login"})
 });
 
@@ -62,7 +61,7 @@ router.post('/login',function(req,res,next){
 						sendObj.code = 1000;
 						sendObj.message = '登录成功';
 						sendObj.uid = rows[0].uid;
-						loginTools.logining(sendObj.uid);
+						loginTools.logining(req,req,sendObj.uid);
 						res.cookie('uid',sendObj.uid,{signed:true});
 					} else {
 						sendObj.code = 1002;

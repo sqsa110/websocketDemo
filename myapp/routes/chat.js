@@ -34,15 +34,6 @@ router.get('/chat', function(req, res, next) {
  	res.render('index', { title: 'Express' });
 });
 
-router.get('/mysql',function(req,res,next){
-	connection.connect();
-	connection.query('SELECT * from users',function(err,rows,fields){
-		if(err) throw err;
-		console.log(rows[0]);
-	});
-	connection.end();
-	res.send({"aaa":"bbb"});
-});
 
 router.get('/socket',function(req,res,next){
 	_socket.socket.emit('chat','alksdfjls','sdfkl');

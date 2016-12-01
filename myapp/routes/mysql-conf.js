@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+/*
 var connection = mysql.createConnection({
 	host : '172.16.5.243',
 	port : '3306',
@@ -6,8 +7,16 @@ var connection = mysql.createConnection({
 	password : 'p@ssw0rd',
 	database : 'websocketdemo'
 });
-
-
+*/
+var connection = {
+	host : '172.16.5.243',
+	port : '3306',
+	user : 'root',
+	password : 'p@ssw0rd',
+	database : 'websocketdemo'
+}
+var loginmysql = mysql.createPool(connection);
+/*
 connection = mysql.createConnection({
 	host : '192.168.3.200',
 	port : '3306',
@@ -16,5 +25,5 @@ connection = mysql.createConnection({
 	database : 'websocketdemo'
 });
 
-
-module.exports = connection;
+*/
+module.exports = { loginPool:loginmysql };

@@ -1,0 +1,382 @@
+@import "header.css";
+@import "test";
+
+$borderDirection : top !default;
+$fontSize : 12px;
+$baseLineHeight : 1.5 !default;
+
+p {
+  background:#eee;
+}
+
+a {
+  font-size : $fontSize;
+}
+
+div {
+  line-height:$baseLineHeight;
+}
+
+div {
+  line-height:2;
+}
+
+.border-#{$borderDirection} {
+  border-#{$borderDirection} : 1px solid #ccc;
+}
+
+body {
+  font : #{$fontSize} / #{$baseLineHeight};
+}
+
+$linkColor : #08c #333 !default;
+a {
+  color : nth($linkColor,1);
+  &:hover {
+    color:nth($linkColor,2);
+  }
+}
+
+
+$heading : (h1:2em,h2:1.5em,h3:1.2em);
+@each $header,$size in $heading {
+  #{$header} {
+    font-size : $size;
+  }
+}
+
+
+$fontSizea : 12px;
+$colora : #333;
+body {
+  $fontSizea : 14px;
+  $colora: #fff !global;
+  font-size:$fontSizea;
+  color:$colora;
+}
+p {
+  font-size:$fontSizea;
+  color : $colora;
+}
+
+
+#top_nav {
+  line-height:40px;
+  text-transform : capitalize;
+  background-color:#333;
+  li {
+    float:left;
+  }
+  a {
+    display : block;
+    padding : 0 10px;
+    color:#fff;
+    &:hover {
+      color:#ddd;
+    }
+  }
+}
+
+.fakeshadow {
+  border : {
+    style:solid;
+    left : {
+      width:4px;
+      color : #888;
+    }
+    right:{
+      width:2px;
+      color:#ccc;
+    }
+  }
+}
+
+.parent-1 {
+  color:#f00;
+  .child {
+    width:100px;
+  }
+  .parent-2 {
+    color:#f00;
+    @at-root .child {
+      width:200px;
+    }
+  }
+  .parent-3 {
+    backtound:#f00;
+    @at-root {
+      .child1 {
+        width:300px;
+      }
+      .child2 {
+        width:400px;
+      }
+    }
+  }
+}
+
+
+
+@media print {
+  .parent1 {
+    color:#f00;
+    @at-root .child1 {
+      width:200px;
+    }
+  }
+}
+
+@media print {
+  .parent2 {
+    color:#f00;
+    @at-root (without:media){
+      .child2 {
+        width:200px;
+      }
+    }
+  }
+}
+
+@media print {
+  .parent3 {
+    color:#f00;
+
+    @at-root (without:all){
+      .child3 {
+        width:200px;
+      }
+    }
+  }
+}
+
+.child {
+  @at-root .parent & {
+    color:#f00;
+  }
+}
+
+/*
+
+//sass style
+.demo {
+  ……
+  animation : motion 3s infinite;
+
+  @at-root {
+    @keyframes motion {
+      ……
+    }
+  }
+}
+
+//css style
+.demo {
+  ……
+  animation : motion 3s infinite;
+}
+@keyframes motion {
+   ……
+}
+*/
+
+@mixin center-block {
+  margin-left:auto;
+  margin-right:auto;
+}
+.demo {
+  @include center-block;
+}
+
+
+@mixin opacity($opacity:50){
+  opacity : $opacity / 100;
+  filter : alpha(opacity=$opacity);
+}
+
+.opacity {
+  @include opacity;
+}
+.opacity-80 {
+  @include opacity(80);
+}
+
+@mixin horizontal-line($border:1px dashed #ccc,$padding:10px){
+  border-bottom:$border;
+  padding-top:$padding;
+  padding-bottom:$padding;
+}
+
+.imgtext-h li {
+  @include horizontal-line(1px solid #ccc);
+}
+
+.imgtext-h--product li {
+  @include horizontal-line($padding:15px);
+}
+
+@mixin box-shadow($shadow...){
+  -webkit-box-shadow:$shadow;
+  box-shadow:$shadow;
+}
+
+.box {
+  border:1px solid #ccc;
+  @include box-shadow(0 2px 2px rgba(0,0,0,.3),0 3px 3px rgba(0,0,0,.3),0 4px 4px rgba(0,0,0,.3));
+}
+
+@mixin max-screen($res){
+  @media only screen and ( max-width:$res){
+    @content;
+  }
+}
+
+@include max-screen(480px){
+  body { color : red }
+}
+
+h1 {
+  border : 4px solid #ff9aa9;
+}
+.speaker {
+  @extend h1;
+  border-width:2px;
+}
+
+
+%ir {
+  color : transparent;
+  text-shadow:none;
+  background-color:transparent;
+  border:0;
+}
+%clearfix {
+  &:before,
+  &:after{
+    content:'';
+    display:table;
+    font:0/0 a;
+  }
+  &:after {
+    clear:both;
+  }
+}
+#header {
+  h1 {
+    @extend %ir;
+    width:300px;
+  }
+}
+.ir {
+  @extend %ir;
+}
+
+$baseFontSize: 10px !default;
+$gray : #ccc !default;
+
+@function pxToRem($px) {
+  @return $px / $baseFontSize * 1rem;
+}
+
+body {
+  font-size:$baseFontSize;
+  color:lighten($gray,10%);
+}
+.test {
+  font-size:pxToRem(16px);
+  color:darken($gray,10%);
+}
+
+
+
+
+$baseFontSize : 14px !default;
+$baseLineHeight: 1.5 !default;
+$baseGap: $baseFontSize * $baseLineHeight !default;
+$halfBaseGap : $baseGap / 2 !default;
+$samllFontSize : $baseFontSize - 2px !default;
+
+$_columns: 12 !default;
+$_column-width: 60px !default;
+$_gutter: 20px !default;
+$_gridsystem-width: $_columns * ($_column-width + $_gutter);
+
+
+$lte7: true;
+$type: monster;
+.ib {
+  display : inline-block;
+  @if $lte7 {
+    *display:inline;
+    *zoom:1;
+  }
+}
+p {
+  @if $type == ocean {
+    color : blue;
+  } @else if $type == matador {
+    color : red;
+  } @else if $type == monster {
+    color : green;
+  } @else {
+    color : black;
+  }
+}
+
+
+
+// if(true,1px,2px) => 1px
+// if(false,1px,2px) => 2px
+
+/*
+for循环
+for循环有两种形式，
+分别为：@for $var from <start> through <end>
+和
+@for $var from <start> to <end>。
+$i表示变量，start表示起始值，
+end表示结束值，
+这两个的区别是关键字through表示包括end这个数，
+而to则不包括end这个数。
+*/
+@for $i from 1 through 3 {
+  .item-#{$i} { width:2em * $i; }
+}
+
+
+
+
+
+
+/*
+@each循环
+语法为：
+@each $var in <list or map>。
+其中$var表示变量，而list和map表示list类型数据和map类型数据。
+sass 3.3.0新加入了多字段循环和map数据循环。
+*/
+
+$animal-list : puma,sea-slug,egret,salamander;
+@each $animal in $animal-list {
+  .#{$animal}-icon {
+    background-image:url('images/#{$animal}.png');
+  }
+}
+
+//多个字段list数据循环
+$animal-data : (puma,black,default),(sea-slug,blue,pointer),(egret,white,move);
+@each $animal,$color,$cursor in $animal-data {
+  .#{$animal}-icon {
+    background-image:url('images/#{$animal}.png');
+    border:2px solid $color;
+    cursor : $cursor;
+  }
+}
+
+
+//多个字段map数据循环
+$headings : (h1:2em,h2:1.5em,h3:1.2em);
+@each $header,$size in $headings {
+  #{$header}{
+    font-size:$size;
+  }
+}

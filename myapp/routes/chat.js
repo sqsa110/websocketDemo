@@ -6,7 +6,7 @@ var socket_io= require('socket.io');
 //var parseCookie = express.cookieParser('keyboard cat');
 //var storeMemory = express.session;
 
-var connection = require('./conf');
+var connection = require('./mysql-conf');
 
 /*
 var mysql = require('mysql');

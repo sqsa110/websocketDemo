@@ -78,6 +78,14 @@ router.post('/login',function(req,res,next){
 	});
 });
 
+router.get('/test',function(req,res,next){
+	var session = req.session;
+	session.count = session.count || 0;
+	var n = session.count++;
+	res.send({data:session});
+	req.session.save();
+});
+
 router.post('/socket2',function(req,res,next){
 	req.session['name'] = req.body.name;
 	res.render('socket',{title:"Express"});

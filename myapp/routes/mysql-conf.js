@@ -15,6 +15,7 @@ var connection = {
 	password : 'p@ssw0rd',
 	database : 'websocketdemo'
 }
+/*
 connection = {
 	host : '192.168.3.200',
 	port : '3306',
@@ -22,6 +23,7 @@ connection = {
 	password : 'yaowan',
 	database : 'websocketdemo'
 }
+*/
 var loginmysql = mysql.createPool(connection);
 /*
 connection = mysql.createConnection({

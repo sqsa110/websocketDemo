@@ -1,39 +1,68 @@
-$(document).ready(function() {
-    var socket = io.connect('/');
+define(function(require,exports,module){
 
-    socket.on('connect', function(reason) {
-        console.log('connected',reason);
-    });
+    function WebSocket(){
+    }
 
-    socket.on('connect_failed',function(reason){
-        console.log('connect_failed',reason);
-    });
+    WebSocket.prototype.init = function(){
+        this.linkInit();
+        return this;
+    }
 
-    socket.on('error',function(reason){
-        console.log('err',reason);
-    });
+    WebSocket.prototype.linkInit = function(){
+        this.socket = io.connect('/');
+        this.defaultEv();
+        this.customEv();
+        return this;
+    }
 
-    socket.on('disconnect',function(reason){
-        console.log('disconnect',reason);
-    });
+    WebSocket.prototype.defaultEv = function(){
+        this.socket.on('connect', function(reason) {
+            console.log('connected',reason);
+        });
 
-    socket.on('reconnect_failed',function(reason){
-        console.log('reconnect_failed',reason);
-    });
+        this.socket.on('connect_failed',function(reason){
+            console.log('connect_failed',reason);
+        });
 
-    socket.on('reconnect',function(reason){
-        console.log('reconnect',reason);
-    });
+        this.socket.on('error',function(reason){
+            console.log('err',reason);
+        });
 
-    socket.on('message', function(data) {
-        var chat_message = data['user'] + ': ' + data['message'];
-        $('#log').val($('#log').val() + '\n' + chat_message);
-        $('#log').scrollTop(100000);
-    });
+        this.socket.on('disconnect',function(reason){
+            console.log('disconnect',reason);
+        });
 
+        this.socket.on('reconnect_failed',function(reason){
+            console.log('reconnect_failed',reason);
+        });
+
+        this.socket.on('reconnect',function(reason){
+            console.log('reconnect',reason);
+        });
+
+        this.socket.on('message', function(data) {
+            console.log('message',data);
+            /*
+            var chat_message = data['user'] + ': ' + data['message'];
+            $('#log').val($('#log').val() + '\n' + chat_message);
+            $('#log').scrollTop(100000);
+            */
+        });
+
+
+    }
+
+    WebSocket.prototype.customEv = function(){
+
+    }
+
+
+    /*
     $('#send').click(function() {
         var msg = $('#message').val();
         socket.emit('message', {'message': msg});
         $('#message').val('');
     });
+    */
+    module.exports = new WebSocket;
 });

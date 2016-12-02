@@ -7,6 +7,7 @@ define(function(require,exports,module){
         this.$passwdObj = $('#passwd');
         this.$loginFormObj = $('#loginForm');
         this.$submitBtn = $('#send');
+        this.$socketBtn = $('#button');
         this.ajax = loginReq.verification;
         this.init();
         return this;
@@ -21,6 +22,9 @@ define(function(require,exports,module){
         var That = this;
         this.$submitBtn.on('click',function(){
             That.loginInfo();
+        });
+        this.$socketBtn.on('click',function(){
+
         });
         return this;
     }

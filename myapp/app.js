@@ -16,12 +16,13 @@ var redisConf = {
  	port : 6379,
   	ttl : 60*60
 }
+/*
 redisConf = {
 	host : '192.168.3.200',
  	port : 6379,
   	ttl : 60*60
 }
-
+*/
 
 var session_storage = new RedisStore(redisConf);
 
